@@ -1,20 +1,18 @@
 ﻿using CleanArchitecture.Application.Common.Interfaces;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CleanArchitecture.Application.Orders.CreateOrder
 {
     public class CreateOrderCommand : IRequest<Guid>, ICommand
     {
-        public CreateOrderCommand(decimal total)
+        public CreateOrderCommand(decimal totalPrice, Guid userId)
         {
-            Total = total;
+            TotalPrice = totalPrice;
+            UserId = userId;
         }
 
-        public decimal Total { get; set; }
+        public decimal TotalPrice { get; set; }
+        public Guid UserId { get; set; }
     }
 }
