@@ -33,8 +33,4 @@
     <ProjectReference Include="..\CleanArchitecture.Domain\CleanArchitecture.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="OrderDetails\" />
-  </ItemGroup>
-
 </Project>
