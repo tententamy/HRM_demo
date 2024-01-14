@@ -31,11 +31,11 @@ namespace CleanArchitecture.Configuration
                 {
                     ValidateAudience = false,
                     ValidateIssuer = false,
-                    ValidateIssuerSigningKey = true,
+                    ValidateIssuerSigningKey = false,
                     ValidateLifetime = true,
                     ValidIssuer = configuration.GetSection("Security.Bearer:Authority").Get<string>(),
                     ValidAudience = configuration.GetSection("Security.Bearer:Audience").Get<string>(),
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("HRM Nh@ M@y Th3p!!!"))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("de455d3d7f83bf393eea5aef43f474f4aac57e3e8d75f9118e60d526453002dc"))
             };
             });
 

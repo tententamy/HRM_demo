@@ -11,7 +11,7 @@ namespace CleanArchitecture.Api.Services
     {
         private readonly string _issuer; // Set the issuer based on your application
         private readonly string _audience; // Set the audience based on your application
-        private readonly string Key = "sondeptraivippronumber1intheworldandthemosthandsomeman";
+        private readonly string Key = "de455d3d7f83bf393eea5aef43f474f4aac57e3e8d75f9118e60d526453002dc";
         //private readonly string _secretKey; // Set the secret key based on your application
 
         public JWTService(IConfiguration configuration)
@@ -24,23 +24,33 @@ namespace CleanArchitecture.Api.Services
 
         public string CreateToken(Domain.Entities.User user, IList<string> roles)
         {
-            var tokenHanler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(Key);
-            var securityKey = new SymmetricSecurityKey(key);
-            var credential = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var tokenDescription = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, user.Username),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim("role", user.Roles.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = credential
-            };
-            var token = tokenHanler.CreateToken(tokenDescription);
-            return tokenHanler.WriteToken(token);
-        }
-    }
+                    var claims = new List<Claim>
+         {
+             //new Claim(JwtRegisteredClaimNames.Sub, userId),
+             new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+             new Claim("Roles", user.Roles.ToString()),
+             new Claim(JwtRegisteredClaimNames.Email, user.Email)
+         };
+
+                    if (roles != null)
+                    {
+                        foreach (var role in roles)
+                        {
+                            claims.Add(new Claim(ClaimTypes.Role, role));
+                        }
+                    }
+
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
+                    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                    var token = new JwtSecurityToken(
+                        issuer: "test",
+                        audience: "api",
+                        claims: claims,
+                        expires: DateTime.Now.AddHours(1),
+                        signingCredentials: creds);
+
+                    return new JwtSecurityTokenHandler().WriteToken(token);
+                }
+            }
 }

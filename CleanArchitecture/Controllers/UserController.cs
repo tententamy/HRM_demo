@@ -14,7 +14,7 @@ namespace CleanArchitecture.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [AllowAnonymous]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly ISender _mediator;

@@ -36,8 +36,9 @@ namespace CleanArchitecture.Api.Controllers
             {
                 return Unauthorized();
             }
-
-            var token = _jwt.CreateToken(result);
+            List<string> roles = new List<string>();
+            roles.Add("Admin");
+            var token = _jwt.CreateToken(result,roles);
 
             return Ok(token);
         }
