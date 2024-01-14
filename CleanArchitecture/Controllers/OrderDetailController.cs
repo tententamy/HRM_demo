@@ -57,7 +57,7 @@ namespace CleanArchitecture.Api.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<bool>>> Delete(
-          [FromBody] Guid command,
+          [FromRoute] Guid command,
           CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(new DeleteOrderDetailCommand(id: command), cancellationToken);
@@ -71,7 +71,7 @@ namespace CleanArchitecture.Api.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<OrderDetailDTO>>> GetById(
-          [FromBody] Guid Id,
+          [FromRoute] Guid Id,
           CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(new GetOrderDetailQuery(id: Id), cancellationToken);
