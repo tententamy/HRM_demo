@@ -13,7 +13,8 @@ namespace CleanArchitecture.Application.OrderDetails.Commands.Delete
         public deleteOrderDetailCommandValidator()
         {
             RuleFor(x => x.Id).NotEmpty().WithMessage("Id does not empty")
-                .NotNull().WithMessage("Id does not Null");
+                .NotNull().WithMessage("Id does not Null")
+                .Must(x => x != Guid.Empty).WithMessage("OrderId must be a valid GUID");
         }
     }
 }
