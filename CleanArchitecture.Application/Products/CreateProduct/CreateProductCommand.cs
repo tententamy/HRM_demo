@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CleanArchitecture.Application.Products.CreateProduct
 {
-    public class CreateProductCommand : IRequest<ProductDto>,ICommand
+    public class CreateProductCommand : IRequest<ProductDto>, ICommand
     {
 
         public string Name { get; set; }

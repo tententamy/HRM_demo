@@ -15,7 +15,7 @@ namespace CleanArchitecture.Application.Products.DeleteProduct
         public DeleteProductCommand(Guid productId)
         {
             this.productId = productId;
-        }   
+        }
 
     }
 }

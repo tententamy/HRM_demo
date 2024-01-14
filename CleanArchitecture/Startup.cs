@@ -6,6 +6,14 @@ using Serilog;
 using CleanArchitecture.Api.Configuration;
 using CleanArchitecture.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.OpenApi.Models;
+using CleanArchitecture.Api.Filters;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using CleanArchitecture.Application.Common.Interfaces;
+using CleanArchitecture.Services;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace CleanArchitecture.Api
 {
@@ -33,6 +41,8 @@ namespace CleanArchitecture.Api
             services.AddInfrastructure(Configuration);
             services.ConfigureSwagger(Configuration);
 
+            
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
@@ -48,14 +58,17 @@ namespace CleanArchitecture.Api
             app.UseExceptionHandler();
             app.UseHttpsRedirection();
             app.UseRouting();
+            
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultHealthChecks();
                 endpoints.MapControllers();
             });
             app.UseSwashbuckle(Configuration);
+
         }
     }
 

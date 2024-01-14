@@ -9,7 +9,7 @@ namespace CleanArchitecture.Application.Reviews.DeleteReview
 {
     public class DeleteReviewCommandValidator : AbstractValidator<DeleteReviewCommand>
     {
-        public DeleteReviewCommandValidator() 
+        public DeleteReviewCommandValidator()
         {
             ConfigureValidationRules();
         }

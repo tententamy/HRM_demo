@@ -14,7 +14,8 @@ namespace CleanArchitecture.Application.Products
 {
     public class ProductDto : IMapFrom<Product>
     {
-        public ProductDto() {     
+        public ProductDto()
+        {
         }
 
         public void Mapping(Profile profile)
@@ -22,7 +23,9 @@ namespace CleanArchitecture.Application.Products
             profile.CreateMap<Product, ProductDto>();
         }
         [Required]
+        public Guid Id { get; set; }
 
+        [Required]
         public string Name { get; set; } = string.Empty;
         [Required]
         public string Description { get; set; }

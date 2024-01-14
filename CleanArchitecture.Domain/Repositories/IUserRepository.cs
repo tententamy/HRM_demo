@@ -14,5 +14,7 @@ namespace CleanArchitecture.Domain.Repositories
         Task<List<User>> FindByIdsAsync(Guid[] ids, CancellationToken cancellationToken = default);
 
         Task<User?> FindByUsernameAndPassword(string username, string password, CancellationToken cancellationToken = default);
+
+        Task<User?> FindByUsername(string username, CancellationToken cancellationToken = default);
     }
 }

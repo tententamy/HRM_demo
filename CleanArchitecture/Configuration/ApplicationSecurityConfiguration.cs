@@ -1,8 +1,11 @@
-﻿using CleanArchitecture.Application.Common.Interfaces;
+﻿using CleanArchitecture.Api.Services;
+using CleanArchitecture.Application.Common.Interfaces;
 using CleanArchitecture.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 
 namespace CleanArchitecture.Configuration
 {
@@ -13,20 +16,29 @@ namespace CleanArchitecture.Configuration
             IConfiguration configuration)
         {
             services.AddTransient<ICurrentUserService, CurrentUserService>();
+            services.AddTransient<jwt, JWTService>();
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
             services.AddHttpContextAccessor();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(
-                    JwtBearerDefaults.AuthenticationScheme,
-                    options =>
-                    {
-                        options.Authority = configuration.GetSection("Security.Bearer:Authority").Get<string>();
-                        options.Audience = configuration.GetSection("Security.Bearer:Audience").Get<string>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = configuration.GetSection("Security.Bearer:Authority").Get<string>(),
+                    ValidAudience = configuration.GetSection("Security.Bearer:Audience").Get<string>(),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("HRM Nh@ M@y Th3p!!!"))
+            };
+            });
 
-                        options.TokenValidationParameters.RoleClaimType = "role";
-                        options.SaveToken = true;
-                    });
 
             services.AddAuthorization(ConfigureAuthorization);
 

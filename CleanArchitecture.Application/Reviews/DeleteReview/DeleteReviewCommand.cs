@@ -10,7 +10,7 @@ namespace CleanArchitecture.Application.Reviews.DeleteReview
 {
     public class DeleteReviewCommand : IRequest<bool>, ICommand
     {
-        public DeleteReviewCommand(Guid id) 
+        public DeleteReviewCommand(Guid id)
         {
             Id = id;
         }

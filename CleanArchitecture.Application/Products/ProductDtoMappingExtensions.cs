@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CleanArchitecture.Application.Products
 {
-    public static  class ProductDtoMappingExtensions
+    public static class ProductDtoMappingExtensions
     {
 
         public static ProductDto MapToProductDto(this Product projectFrom, IMapper mapper)

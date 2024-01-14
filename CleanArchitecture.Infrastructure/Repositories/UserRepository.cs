@@ -26,5 +26,10 @@ namespace CleanArchitecture.Infrastructure
         {
            return await FindAsync(x => x.Username == username && x.Password == password, cancellationToken);
         }
+
+        public async Task<User?> FindByUsername(string username, CancellationToken cancellationToken = default)
+        {
+            return await FindAsync(x => x.Username == username, cancellationToken);
+        }
     }
 }

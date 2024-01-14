@@ -10,10 +10,10 @@ namespace CleanArchitecture.Application.Reviews.UpdateReview
 {
     public class UpdateReviewCommandValidator : AbstractValidator<UpdateReviewCommand>
     {
-        
-        public UpdateReviewCommandValidator() 
+
+        public UpdateReviewCommandValidator()
         {
-            ConfigureValidationRules();        
+            ConfigureValidationRules();
         }
 
 

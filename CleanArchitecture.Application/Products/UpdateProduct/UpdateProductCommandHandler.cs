@@ -29,11 +29,11 @@ namespace CleanArchitecture.Application.Products.UpdateProduct
             {
                 throw new NotFoundException($"Product with ID {request.Id} not found.");
             }
-            
+
             existingProduct.Name = request.Name;
             existingProduct.Description = request.Description;
             existingProduct.Price = request.Price;
-            existingProduct.Brand = request.Brand;  
+            existingProduct.Brand = request.Brand;
             existingProduct.VendorId = request.VendorId;
 
             await _repository.UnitOfWork.SaveChangesAsync(cancellationToken);

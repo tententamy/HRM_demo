@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Domain.Common.Interfaces;
+﻿using Castle.Components.DictionaryAdapter.Xml;
+using CleanArchitecture.Domain.Common.Interfaces;
 using CleanArchitecture.Domain.Repositories;
 using CleanArchitecture.Infrastructure.Persistence;
 using CleanArchitecture.Infrastructure.Repositories;
@@ -23,12 +24,14 @@ namespace CleanArchitecture.Infrastructure
                     });
                 options.UseLazyLoadingProxies();
             });
+
             services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<ApplicationDbContext>());
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IOrderDetailRepository, OrderDetailRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IReviewRepository, ReviewRepository>();
-            services.AddTransient<IOrderDetailRepository, OrderDetailRepository>();
+            services.AddTransient<IVendorRepository, VendorRepository>();
             return services;
         }
     }

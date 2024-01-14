@@ -31,6 +31,12 @@ namespace CleanArchitecture.Infrastructure.Persistence
             //ConfigureModel(modelBuilder);
             //modelBuilder.ApplyConfiguration(new OrderConfiguration());
             //modelBuilder.ApplyConfiguration(new ProductConfiguration());
+
+            modelBuilder.Entity<Order>()
+            .HasMany(p => p.OrderDetails)
+            .WithOne(c => c.Order)
+            .OnDelete(DeleteBehavior.Cascade);
+
         }
 
 

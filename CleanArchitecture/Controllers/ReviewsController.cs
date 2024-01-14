@@ -3,10 +3,12 @@ using CleanArchitecture.Application.Orders.CreateOrder;
 using CleanArchitecture.Application.Reviews;
 using CleanArchitecture.Application.Reviews.CreateReview;
 using CleanArchitecture.Application.Reviews.DeleteReview;
-using CleanArchitecture.Application.Reviews.GetAllReview;
-using CleanArchitecture.Application.Reviews.GetByIdReview;
+using CleanArchitecture.Application.Reviews.GetAllReviews;
+using CleanArchitecture.Application.Reviews.GetReviewById;
 using CleanArchitecture.Application.Reviews.UpdateReview;
+using CleanArchitecture.Domain.Common.Enum;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
@@ -15,6 +17,7 @@ namespace CleanArchitecture.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class ReviewsController : ControllerBase
     {
         private readonly ISender _mediator;
@@ -26,7 +29,7 @@ namespace CleanArchitecture.Api.Controllers
 
         [HttpPost("create")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<Guid>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<ReviewDto>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -37,7 +40,7 @@ namespace CleanArchitecture.Api.Controllers
         {
             var result = await _mediator.Send(command, cancellationToken);
             //return CreatedAtAction(nameof(GetOrderById), new { id = result }, new JsonResponse<Guid>(result));
-            return ( new JsonResponse<Guid>(result));
+            return Ok(result);
         }
 
         [HttpPost("update")]
@@ -83,7 +86,7 @@ namespace CleanArchitecture.Api.Controllers
             [FromRoute] Guid id,
            CancellationToken cancellationToken = default)
         {
-            var result = await _mediator.Send(new GetByIdReviewQuery(id), cancellationToken);
+            var result = await _mediator.Send(new GetReviewByIdQuery(id), cancellationToken);
             //return CreatedAtAction(nameof(GetOrderById), new { id = result }, new JsonResponse<Guid>(result));
             return (new JsonResponse<ReviewDto>(result));
         }
@@ -98,7 +101,7 @@ namespace CleanArchitecture.Api.Controllers
         public async Task<ActionResult<JsonResponse<List<ReviewDto>>>> GetAllReview(
            CancellationToken cancellationToken = default)
         {
-            var result = await _mediator.Send(new GetAllReviewQuery(), cancellationToken);
+            var result = await _mediator.Send(new GetAllReviewsQuery(), cancellationToken);
             //return CreatedAtAction(nameof(GetOrderById), new { id = result }, new JsonResponse<Guid>(result));
             return (new JsonResponse<List<ReviewDto>>(result));
         }

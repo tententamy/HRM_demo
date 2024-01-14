@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace CleanArchitecture.Domain.Repositories
 {
-    public interface IOrderDetailRepository: IEFRepository<OrderDetail, OrderDetail>
+    public interface IOrderDetailRepository : IEFRepository<OrderDetail, OrderDetail>
     {
         Task<OrderDetail?> FindByIdAsync(Guid id, CancellationToken cancellationToken = default);
         Task<List<OrderDetail>?> FindAll(CancellationToken cancellationToken = default);
         Task<List<OrderDetail>> FindByIdsAsync(Guid[] ids, CancellationToken cancellationToken = default);
+
     }
 }

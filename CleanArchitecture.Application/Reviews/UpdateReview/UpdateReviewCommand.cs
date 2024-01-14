@@ -10,7 +10,7 @@ namespace CleanArchitecture.Application.Reviews.UpdateReview
 {
     public class UpdateReviewCommand : IRequest<ReviewDto>, ICommand
     {
-        public UpdateReviewCommand(Guid Id, string comment, int rating) 
+        public UpdateReviewCommand(Guid Id, string comment, int rating)
         {
             this.Id = Id;
             this.comment = comment;

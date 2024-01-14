@@ -22,8 +22,8 @@ namespace CleanArchitecture.Application.Reviews.DeleteReview
 
         public async Task<bool> Handle(DeleteReviewCommand request, CancellationToken cancellationToken)
         {
-            var review = await _reviewRepository.FindByIdAsync(request.Id,cancellationToken);
-            if(review == null)
+            var review = await _reviewRepository.FindByIdAsync(request.Id, cancellationToken);
+            if (review == null)
             {
                 return false;
             }

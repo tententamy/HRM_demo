@@ -28,5 +28,6 @@ namespace CleanArchitecture.Infrastructure.Repositories
         {
             return await FindAllAsync(cancellationToken);
         }
+        
     }
 }

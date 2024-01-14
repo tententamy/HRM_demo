@@ -18,7 +18,7 @@ namespace CleanArchitecture.Application.Reviews.CreateReview
         private readonly IProductRepository _productRepository;
         private readonly IUserRepository _userRepository;
 
-        public CreateReviewCommandHandler(IMapper mapper, IReviewRepository reviewRepository, IUserRepository userRepository, IProductRepository productRepository)  
+        public CreateReviewCommandHandler(IMapper mapper, IReviewRepository reviewRepository, IUserRepository userRepository, IProductRepository productRepository)
         {
             _mapper = mapper;
             _reviewRepository = reviewRepository;
@@ -30,18 +30,18 @@ namespace CleanArchitecture.Application.Reviews.CreateReview
         {
 
             var user = await _userRepository.FindByIdAsync(request.UserId, cancellationToken);
-            if(user == null) 
+            if (user == null)
             {
                 throw new NotFoundException("User Does Not Exist");
             }
 
             var product = await _productRepository.FindByIdAsync(request.ProductId, cancellationToken);
-            if(product == null)
+            if (product == null)
             {
                 throw new NotFoundException("Product Does Not Exits");
             }
 
-            var review = new Review() 
+            var review = new Review()
             {
                 rating = request.Rating,
                 comment = request.Comment,

@@ -23,8 +23,8 @@ namespace CleanArchitecture.Application.Reviews.UpdateReview
 
         public async Task<ReviewDto> Handle(UpdateReviewCommand request, CancellationToken cancellationToken)
         {
-            var review = await _reviewRepository.FindByIdAsync(request.Id,cancellationToken);
-            if (review == null) 
+            var review = await _reviewRepository.FindByIdAsync(request.Id, cancellationToken);
+            if (review == null)
             {
                 throw new NotFoundException("Review Does Not Exist");
             }

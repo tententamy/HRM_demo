@@ -1,34 +1,41 @@
 ﻿using AutoMapper;
+using CleanArchitecture.Application.Orders.CreateOrder;
+using CleanArchitecture.Domain.Common.Exceptions;
+using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Repositories;
 using MediatR;
-using System.Threading;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CleanArchitecture.Application.Orders.DeleteOrder
 {
-    public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand, bool>
+    public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand, string>
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IMapper _mapper;
 
-        public DeleteOrderCommandHandler(IOrderRepository orderRepository, IMapper mapper)
+        public DeleteOrderCommandHandler(IOrderRepository orderRepository, IUserRepository userRepository)
         {
+            
             _orderRepository = orderRepository;
-            _mapper = mapper;
         }
 
-        public async Task<bool> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
+
+        public async Task<string> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
             var order = await _orderRepository.FindByIdAsync(request.Id, cancellationToken);
+
             if (order == null)
             {
-                return false;
+                throw new NotFoundException("The order does not exist");
             }
 
             _orderRepository.Remove(order);
             await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
-            return true;
+            return "Delete Success";
         }
     }
 }

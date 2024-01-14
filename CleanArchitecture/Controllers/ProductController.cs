@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Api.Controllers.ResponseTypes;
+using CleanArchitecture.Application.Orders;
 using CleanArchitecture.Application.Products;
 using CleanArchitecture.Application.Products.CreateProduct;
 using CleanArchitecture.Application.Products.DeleteProduct;
@@ -17,13 +18,14 @@ namespace CleanArchitecture.Api.Controllers
     {
         private readonly ISender _mediator;
 
-        public ProductController(ISender mediator) {
+        public ProductController(ISender mediator)
+        {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
         }
 
 
-        [HttpPost("product")]
+        [HttpPost("create")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<ProductDto>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -35,60 +37,52 @@ namespace CleanArchitecture.Api.Controllers
             CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
-            return Ok(result);
+            return (new JsonResponse<ProductDto>(result));
         }
 
-        [HttpGet("products")]
+        [HttpGet("getAllProducts")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<List<ProductDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonResponse<List<ProductDto>>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<List<ProductDto>>> GetProducts(
+        public async Task<ActionResult<JsonResponse<List<ProductDto>>>> GetProducts(
            CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(new GetProductsQuery(), cancellationToken);
-            return Ok(result);
+            return new JsonResponse<List<ProductDto>>(result);
         }
-        [HttpGet("product/{id}")]
+        [HttpGet("getProductById/{id}")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<Guid>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<List<ProductDto>>> GetProduct(
+        public async Task<ActionResult<JsonResponse<ProductDto>>> GetProduct(
             [FromRoute] Guid id,
             CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(new GetProductByIdQuery(id), cancellationToken);
-            return Ok(result);
+            return (new JsonResponse<ProductDto>(result));
         }
 
-        [HttpPut("product/{productId}")]
+        [HttpPut("update")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> UpdateProduct(
-            [FromRoute] Guid productId,
+        public async Task<ActionResult<JsonResponse<ProductDto>>> UpdateProduct(
+            
             [FromBody] UpdateProductCommand command,
             CancellationToken cancellationToken = default)
         {
-            if (command.Id == default)
-            {
-                command.Id = productId;
-            }
+          
 
-            if (productId != command.Id)
-            {
-                return BadRequest();
-            }
-
-            await _mediator.Send(command, cancellationToken);
-            return Ok("sucess");
+            var result = await _mediator.Send(command, cancellationToken);
+            return (new JsonResponse<ProductDto>(result)); ;
         }
 
         [HttpDelete("product/{productId}")]

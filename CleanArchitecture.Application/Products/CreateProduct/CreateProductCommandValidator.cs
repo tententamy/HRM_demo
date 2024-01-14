@@ -33,12 +33,12 @@ namespace CleanArchitecture.Application.Products.CreateProduct
 
             RuleFor(x => x.Price)
            .NotEmpty().WithMessage("Price must not be empty.");
-           
+
             RuleFor(x => x.Brand)
                 .NotEmpty().WithMessage("Brand must not be empty.");
         }
 
-        
-        
+
+
     }
 }

@@ -11,17 +11,22 @@ namespace CleanArchitecture.Application.Users
             
         }
 
-        public static UserDto Create(string userName, string password)
+        public static UserDto Create(Guid Id, string FirstName, string LastName, string PhoneNumber, string Email)
         {
             return new UserDto
             {
-                userName = userName,
-                password = password
+                Id = Id,
+                FirstName = FirstName,
+                LastName = LastName,
+                PhoneNumber = PhoneNumber,
+                Email = Email
             };
         }
-
-        public string userName { get; set; }
-        public string password { get; set; }
+        public Guid Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
 
         public void Mapping(Profile profile)
         {

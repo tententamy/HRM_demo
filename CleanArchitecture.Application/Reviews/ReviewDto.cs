@@ -24,18 +24,18 @@ namespace CleanArchitecture.Application.Reviews
 
         public static ReviewDto CreateReview(string comment, int rating, Guid UserId, Guid ProductId)
         {
-            return new ReviewDto 
-            { 
-                Comment = comment, 
-                Rating = rating, 
-                UserId = UserId, 
-                ProductId = ProductId 
+            return new ReviewDto
+            {
+                Comment = comment,
+                Rating = rating,
+                UserId = UserId,
+                ProductId = ProductId
             };
         }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Review,ReviewDto>();
+            profile.CreateMap<Review, ReviewDto>();
         }
     }
 }

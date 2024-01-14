@@ -22,7 +22,7 @@ namespace CleanArchitecture.Application.Products.CreateProduct
         }
         public async Task<ProductDto> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-           
+
             var product = new Product
             {
                 Name = request.Name,
